@@ -14,20 +14,20 @@
 
 
 <ion-content padding>
-  <ion-card>
 
+  <ion-card *ngFor="let item of list_moovies">
     <ion-item>
       <ion-avatar item-start>
         <img src="assets/imgs/avatar.png">
       </ion-avatar>
-      <h2>Marty McFly</h2>
-      <p>November 6, 1955</p>
+      <h2 class="feed_title">{{item.original_title}}</h2>
+      <p class="feed_date">{{item.release_date}}</p>
     </ion-item>
 
-    <img src="assets/imgs/advance-card-bttf.png">
+    <img [src]="'https://image.tmdb.org/t/p/w300/' + item.backdrop_path">
 
     <ion-card-content>
-      <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.</p>
+      <p>{{item.overview}}</p>
     </ion-card-content>
 
     <ion-row>

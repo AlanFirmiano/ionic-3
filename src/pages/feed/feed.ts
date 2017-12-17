@@ -19,13 +19,21 @@ import {MoovieProvider} from "../../providers/moovie/moovie";
 })
 export class FeedPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private moovieProvider:MoovieProvider) {
+  public list_moovies = new Array<any>();
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private moovieProvider:MoovieProvider) {
   }
 
   ionViewDidLoad() {
     this.moovieProvider.getLatestMovies().subscribe(
       res=>{
-        console.log(res);
+        const response = (res as any);
+        const objeto = JSON.parse(response._body);
+        this.list_moovies = objeto.results;
+        console.log(objeto);
       },
       err=>{
         console.log(err);

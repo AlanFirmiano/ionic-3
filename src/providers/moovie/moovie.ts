@@ -16,6 +16,6 @@ export class MoovieProvider {
   }
 
   getLatestMovies(){
-    return this.http.get("https://api.themoviedb.org/3/movie/latest?api_key=519741be98533625d627854cb36d090f");
+    return this.http.get("https://api.themoviedb.org/3/movie/popular?api_key=519741be98533625d627854cb36d090f");
   }
 }
