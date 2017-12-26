@@ -15,8 +15,8 @@ export class MoovieProvider {
     console.log('Hello MoovieProvider Provider');
   }
 
-  getLatestMovies(){
-    return this.http.get("https://api.themoviedb.org/3/movie/popular?api_key=519741be98533625d627854cb36d090f");
+  getLatestMovies(page = 1){
+    return this.http.get("https://api.themoviedb.org/3/movie/popular?page="+page+"&api_key=519741be98533625d627854cb36d090f");
   }
 
   getMovieDetails(filmeID){

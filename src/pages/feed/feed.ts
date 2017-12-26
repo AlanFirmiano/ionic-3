@@ -21,6 +21,8 @@ import {FilmeDetalhesPage} from "../filme-detalhes/filme-detalhes";
 export class FeedPage {
 
   public list_moovies = new Array<any>();
+  public page = 1;
+  public infiniteScroll;
   public loader;
   public refresher;
   public isRefreshing:boolean = false;
@@ -31,6 +33,14 @@ export class FeedPage {
     public loadingCtrl: LoadingController
   ) {
   }
+
+  doInfinite(infiniteScroll) {
+    this.page++;
+    this.infiniteScroll = infiniteScroll;
+    this.carregarFilmes(true);
+  }
+
+
   abrirCarregando() {
     this.loader = this.loadingCtrl.create({
       content: "Carregando Filmes..."
@@ -57,13 +67,20 @@ export class FeedPage {
     console.log(filme);
     this.navCtrl.push(FilmeDetalhesPage, { id: filme.id });
   }
-  carregarFilmes(){
+  carregarFilmes(newpage: boolean = false){
     this.abrirCarregando();
-    this.moovieProvider.getLatestMovies().subscribe(
+    this.moovieProvider.getLatestMovies(this.page).subscribe(
       res=>{
         const response = (res as any);
         const objeto = JSON.parse(response._body);
-        this.list_moovies = objeto.results;
+
+        if(newpage){
+          this.list_moovies = this.list_moovies.concat(objeto.results);
+          this.infiniteScroll.complete();
+        }else{
+          this.list_moovies = objeto.results;
+        }
+
         this.fecharCarregando();
         if(this.isRefreshing){
           this.refresher.complete();
