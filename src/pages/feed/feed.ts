@@ -53,8 +53,9 @@ export class FeedPage {
     this.carregarFilmes();
   }
 
-  abrirDetalhes(){
-    this.navCtrl.push(FilmeDetalhesPage);
+  abrirDetalhes(filme:any){
+    console.log(filme);
+    this.navCtrl.push(FilmeDetalhesPage, { id: filme.id });
   }
   carregarFilmes(){
     this.abrirCarregando();
