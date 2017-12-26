@@ -15,6 +15,10 @@
 
 <ion-content padding>
 
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-card *ngFor="let item of list_moovies">
     <ion-item>
       <ion-avatar item-start>
@@ -49,6 +53,8 @@
         </ion-note>
       </ion-col>
     </ion-row>
-
+    <button ion-button icon-only (click)="abrirDetalhes()">
+      <ion-icon name="star"></ion-icon>
+    </button>
   </ion-card>
 </ion-content>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {MoovieProvider} from "../../providers/moovie/moovie";
+import {FilmeDetalhesPage} from "../filme-detalhes/filme-detalhes";
 
 /**
  * Generated class for the FeedPage page.
@@ -20,23 +21,61 @@ import {MoovieProvider} from "../../providers/moovie/moovie";
 export class FeedPage {
 
   public list_moovies = new Array<any>();
-
+  public loader;
+  public refresher;
+  public isRefreshing:boolean = false;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private moovieProvider:MoovieProvider) {
+    private moovieProvider:MoovieProvider,
+    public loadingCtrl: LoadingController
+  ) {
+  }
+  abrirCarregando() {
+    this.loader = this.loadingCtrl.create({
+      content: "Carregando Filmes..."
+    });
+    this.loader.present();
   }
 
-  ionViewDidLoad() {
+  fecharCarregando(){
+    this.loader.dismiss();
+  }
+
+  doRefresh(refresher) {
+    this.refresher = refresher;
+    this.isRefreshing = true;
+
+    this.carregarFilmes();
+  }
+
+  ionViewDidEnter() {
+    this.carregarFilmes();
+  }
+
+  abrirDetalhes(){
+    this.navCtrl.push(FilmeDetalhesPage);
+  }
+  carregarFilmes(){
+    this.abrirCarregando();
     this.moovieProvider.getLatestMovies().subscribe(
       res=>{
         const response = (res as any);
         const objeto = JSON.parse(response._body);
         this.list_moovies = objeto.results;
-        console.log(objeto);
+        this.fecharCarregando();
+        if(this.isRefreshing){
+          this.refresher.complete();
+          this.isRefreshing = false;
+        }
       },
       err=>{
         console.log(err);
+        this.fecharCarregando();
+        if(this.isRefreshing){
+          this.refresher.complete();
+          this.isRefreshing = false;
+        }
       }
     );
   }
