@@ -13,6 +13,7 @@ import {ConfiguracoesPage} from "../configuracoes/configuracoes";
 export class TabsPage {
 
   tab1Root = HomePage;
+  tab2Root = AboutPage;
   tab4Root = FeedPage;
   tab5Root = ConfiguracoesPage;
   constructor() {
